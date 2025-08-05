@@ -1,35 +1,18 @@
 cmake_minimum_required(VERSION 3.13)
-project(avr-c-template C)
+project(avr-c-template C CXX)
 
-# Configuración de directorios
-set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src")
-set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/inc")
-file(GLOB_RECURSE SOURCES "${SOURCE_DIR}/*.c")
+set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src") # Include src/ directory
+set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/inc") # Include inc/ directory
 
-# Configuración del compilador y flags
-set(CMAKE_C_COMPILER "avr-gcc")
-set(MCU "atmega2560")
-set(F_CPU "16000000UL")
-set(CMAKE_C_FLAGS "-Wall -Os -DF_CPU=${F_CPU} -mmcu=${MCU} -I${INCLUDE_DIR}")
+file(GLOB_RECURSE SOURCES "${SOURCE_DIR}/*.c") # Recursively find all .c files in src/ directory
 
-# Generar el archivo ELF
-add_executable(avr-c-template ${SOURCES})
-target_include_directories(avr-c-template PRIVATE ${INCLUDE_DIR})
+add_executable(${PROJECT_NAME} ${SOURCES}) # Create the executable from the source files
+target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR}) # Include the inc/ directory
 
-# Generar el archivo HEX a partir del ELF
-add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/avr-c-template.hex
-    COMMAND avr-objcopy -O ihex -R .eeprom ${CMAKE_BINARY_DIR}/avr-c-template ${CMAKE_BINARY_DIR}/avr-c-template.hex
-    DEPENDS avr-c-template
+add_custom_command(OUTPUT ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex
+    COMMAND avr-objcopy -O ihex -R .eeprom ${CMAKE_BINARY_DIR}/${PROJECT_NAME} ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex
+    DEPENDS ${PROJECT_NAME}
     COMMENT "Generating HEX file"
-)
+) # Custom command to generate the HEX file from the compiled binary
 
-add_custom_target(hex ALL DEPENDS ${CMAKE_BINARY_DIR}/avr-c-template.hex)
-
-# Subir el archivo HEX al microcontrolador con avrdude
-add_custom_target(upload
-    COMMAND /Users/estanislaocrivosgandini/Library/Arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17/bin/avrdude
-    -C/Users/estanislaocrivosgandini/Library/Arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17/etc/avrdude.conf
-    -v -V -p ${MCU} -c stk500v1 -P /dev/cu.usbmodem* -b 19200 -U flash:w:${CMAKE_BINARY_DIR}/avr-c-template.hex:i
-    DEPENDS hex
-    COMMENT "Uploading HEX file to the microcontroller"
-)
+add_custom_target(hex ALL DEPENDS ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.hex) # Custom target to ensure the HEX file is built when the project is built

@@ -6,7 +6,7 @@ int main(void)
     while (1)
     {
         PORTB ^= (1 << PB7);  // Toggle PB7
-        _delay_ms(100);       // Delay for 1 second
+        _delay_ms(200);       // Delay for 1 second
     }
     return 0;
 }
