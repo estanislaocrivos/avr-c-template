@@ -16,11 +16,26 @@ A minimalistic template for developing bare metal applications on C/C++ for AVR 
 
 ### Install CMake
 
-Follow the instructions on the [CMake website](https://cmake.org/download/) to install CMake for your platform.
+Follow the instructions on the [CMake website](https://cmake.org/download/) to install CMake for your platform. On Linux-based systems, you can install it using your package manager. For example, on Ubuntu:
+
+```bash
+sudo apt install cmake
+```
 
 ### Install AVR-GCC
 
-Follow the instructions on the [AVR-GCC website](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers) to install AVR-GCC for your platform.
+Follow the instructions on the [AVR-GCC website](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers) to install AVR-GCC for your platform. On Linux-based systems, you can install it using your package manager. For example, on Ubuntu:
+
+```bash
+sudo apt install gcc-avr binutils-avr avr-libc avrdude
+```
+
+After installation, ensure that the `avr-gcc` and `avr-g++` commands are on your system's PATH. You can verify this by running:
+
+```bash
+avr-gcc --version
+avr-g++ --version
+```
 
 ### Customize the template
 
