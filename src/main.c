@@ -6,9 +6,8 @@
 
 /* ============================================================================================== */
 
-int main(void)
+static void atmega2560_blinky(void)
 {
-#ifdef ATMEGA2560
     /* Blinky for ATmega2560 */
     DDRB |= (1 << PB7);
     while (1)
@@ -16,6 +15,14 @@ int main(void)
         PORTB ^= (1 << PB7);
         _delay_ms(50);
     }
+}
+
+/* ============================================================================================== */
+
+int main(void)
+{
+#ifdef ATMEGA2560
+    atmega2560_blinky();
 #else
     /* Loop */
     while (1)

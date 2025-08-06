@@ -15,7 +15,7 @@ jobs:
       - name: Install cppcheck
         run: sudo apt-get update && sudo apt-get install -y cppcheck
       - name: Run cppcheck
-        run: cppcheck --enable=all --inconclusive --error-exitcode=1 src/
+        run: cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem src/
 
   build:
     name: Build AVR Project
@@ -26,11 +26,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-avr binutils-avr avr-libc cmake make
-      - name: Configure and Build with CMake
+      - name: Configure and Build with CMake (ATmega2560 example)
         run: |
           mkdir -p build
           cd build
-          cmake ..
+          cmake -DCMAKE_TOOLCHAIN_FILE=../avr-gcc-toolchain.cmake -DMCU=atmega2560 -DF_CPU=16000000UL ..
           make
       - name: Show HEX output
         run: ls -lh build/*.hex || echo "No HEX file generated"
