@@ -1,8 +1,10 @@
 #include "../inc/main.h"
 
-/* Macros for blinky examples */
-#define ATMEGA2560  // Uncomment for ATmega2560
-// #define ATMEGA328P  // Uncomment for ATmega328P
+/* ============================================================================================== */
+
+#define ATMEGA2560
+
+/* ============================================================================================== */
 
 int main(void)
 {
@@ -14,14 +16,6 @@ int main(void)
         PORTB ^= (1 << PB7);
         _delay_ms(50);
     }
-#elif defined(ATMEGA328P)
-    /* Blinky for ATmega328P */
-    DDRB |= (1 << PB5);
-    while (1)
-    {
-        PORTB ^= (1 << PB5);
-        _delay_ms(50);
-    }
 #else
     /* Loop */
     while (1)
@@ -30,3 +24,5 @@ int main(void)
     return 0;
 #endif
 }
+
+/* ============================================================================================== */
