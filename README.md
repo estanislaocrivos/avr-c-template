@@ -1,7 +1,5 @@
 # Bare Metal AVR C/C++ Template 📟
 
-**Disclaimer:** Repository currently under development.
-
 A minimalistic template for developing bare metal applications on C/C++ for AVR microcontrollers using CMake as build system and avr-gcc as the compiler. This template is designed to help you get started quickly with AVR development without relying on any vendor-specific IDE.
 
 ## Features
