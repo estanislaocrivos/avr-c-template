@@ -2,7 +2,7 @@
 
 **Disclaimer:** Repository currently under development.
 
-A minimalistic template for developing bare metal applications on C/C++ for AVR microcontrollers using CMake. This template is designed to help you get started quickly with AVR development without relying on any Vendor-specific framework or IDE.
+A minimalistic template for developing bare metal applications on C/C++ for AVR microcontrollers using CMake as build system and avr-gcc as the compiler. This template is designed to help you get started quickly with AVR development without relying on any vendor-specific IDE.
 
 ## Features
 
@@ -10,7 +10,12 @@ A minimalistic template for developing bare metal applications on C/C++ for AVR 
 - Support for C and C++ languages
 - Easy to customize for different AVR microcontrollers
 - Simple test setup using Ceedling
+- Automatic documentation generation with Doxygen
 - Minimal dependencies
+
+## Device support and standard library documentation
+
+This template is designed to support various AVR microcontrollers. The `avr-libc` standard library documentation along with the full list of supported devices can be found in the [avr-libc documentation](https://avrdudes.github.io/avr-libc/avr-libc-user-manual/index.html).
 
 ## Prerequisites
 
@@ -53,6 +58,20 @@ After adding the `ceedling` command to your PATH, you can run the tests by execu
 
 ```bash
 ceedling test:all
+```
+
+## Generating documentation
+
+Doxygen is the default chosen tool for generating documentation from annotated source code. To install Doxygen, follow the instructions on the [Doxygen website](https://www.doxygen.nl/download.html) or use your package manager. For example, on Ubuntu:
+
+```bash
+sudo apt install doxygen
+```
+
+Once Doxygen is installed, you can generate the documentation by running the following command in the root directory of the project:
+
+```bash
+doxygen Doxyfile
 ```
 
 ## Building the binary
