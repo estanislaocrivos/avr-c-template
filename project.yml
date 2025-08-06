@@ -100,9 +100,9 @@
     - +:test/**
     - -:test/support
   :source:
-    - ../src/**
+    - src/**
   :include:
-    - ../inc/**
+    - inc/**
   :support:
     - test/support
   :libraries: []
