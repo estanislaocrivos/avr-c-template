@@ -1,0 +1,50 @@
+name: avr-c-template [CI pipeline]
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    name: Static Analysis (cppcheck)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install cppcheck
+        run: sudo apt-get update && sudo apt-get install -y cppcheck
+      - name: Run cppcheck
+        run: cppcheck --enable=all --inconclusive --suppress=missingIncludeSystem src/
+
+  build:
+    name: Build AVR Project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install AVR toolchain and CMake
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-avr binutils-avr avr-libc cmake make
+      - name: Configure and Build with CMake (ATmega2560 example)
+        run: |
+          mkdir -p build
+          cd build
+          cmake -DCMAKE_TOOLCHAIN_FILE=../avr-gcc-toolchain.cmake -DMCU=atmega2560 -DF_CPU=16000000UL ..
+          make
+      - name: Show HEX output
+        run: ls -lh build/*.hex || echo "No HEX file generated"
+
+  test:
+    name: Unit Tests with Ceedling
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+      - name: Install Ceedling
+        run: gem install ceedling
+      - name: Run Unit Tests
+        run: ceedling test:all

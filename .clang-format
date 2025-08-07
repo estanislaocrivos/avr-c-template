@@ -28,3 +28,4 @@ AlignTrailingComments: true
 AllowShortBlocksOnASingleLine: false
 SpaceBeforeParens: ControlStatements
 ReflowComments: true
+InsertNewlineAtEOF: true
