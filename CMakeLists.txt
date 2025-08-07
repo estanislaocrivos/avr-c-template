@@ -4,7 +4,7 @@ project(avr-c-template C CXX)
 set(SOURCE_DIR "${CMAKE_SOURCE_DIR}/src") # Include src/ directory
 set(INCLUDE_DIR "${CMAKE_SOURCE_DIR}/inc") # Include inc/ directory
 
-file(GLOB_RECURSE SOURCES "${SOURCE_DIR}/*.c") # Recursively find all .c files in src/ directory
+file(GLOB_RECURSE SOURCES "${SOURCE_DIR}/*.c" "${SOURCE_DIR}/*.cpp") # Recursively find all .c and .cpp files in src/ directory
 
 add_executable(${PROJECT_NAME} ${SOURCES}) # Create the executable from the source files
 target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDE_DIR}) # Include the inc/ directory

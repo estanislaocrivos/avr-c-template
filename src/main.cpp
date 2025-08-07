@@ -13,7 +13,7 @@ static void atmega2560_blinky(void)
     while (1)
     {
         PORTB ^= (1 << PB7);
-        _delay_ms(50);
+        _delay_ms(100);
     }
 }
 
@@ -21,6 +21,15 @@ static void atmega2560_blinky(void)
 
 int main(void)
 {
+    /* Call C++ code */
+    MyClass myObj(42);
+    uint8_t v = myObj.getValue();
+    v += 1;
+
+    /* Call C code */
+    int8_t u = lib_function(0);
+    u += 1;
+
 #ifdef ATMEGA2560
     atmega2560_blinky();
 #else
