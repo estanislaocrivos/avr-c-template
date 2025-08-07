@@ -69,6 +69,12 @@ After adding the `ceedling` command to your PATH, you can run the tests by execu
 ceedling test:all
 ```
 
+You can also run the tests and generate a coverage report by running the provided `run-tests.sh` script:
+
+```bash
+./run-tests.sh
+```
+
 ## Generating documentation
 
 Doxygen is the default chosen tool for generating documentation from annotated source code. To install Doxygen, follow the instructions on the [Doxygen website](https://www.doxygen.nl/download.html) or use your package manager. For example, on Ubuntu:
@@ -81,6 +87,12 @@ Once Doxygen is installed, you can generate the documentation by running the fol
 
 ```bash
 doxygen Doxyfile
+```
+
+Or you may use the provided `generate-docs.sh` script, which will run Doxygen and open the generated documentation in your web browser:
+
+```bash
+./generate-docs.sh
 ```
 
 ## Building the binary

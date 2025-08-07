@@ -2,8 +2,6 @@
  * @file main.h
  * @author Estanislao Crivos (estanislaocrivos@gmail.com)
  * @brief Main header file for the AVR C template project.
- * @version 0.1.0
- * @date 2025-08-06
  */
 
 /* ============================================================================================== */
