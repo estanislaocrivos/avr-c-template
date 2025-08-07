@@ -8,7 +8,7 @@
 
 static void atmega2560_blinky(void)
 {
-    /* Blinky for ATmega2560 */
+    /* Blinky for ATmega2560 MCU */
     DDRB |= (1 << PB7);
     while (1)
     {
@@ -28,8 +28,8 @@ int main(void)
     while (1)
     {
     }
-    return 0;
 #endif
+    return 0;
 }
 
 /* ============================================================================================== */

@@ -1,4 +1,4 @@
-name: avr-c-template CI Pipeline
+name: avr-c-template [CI pipeline]
 
 on:
   push:

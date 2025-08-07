@@ -42,7 +42,18 @@ avr-g++ --version
 
 ### Customize the template
 
-You may change the project name in the `CMakeLists.txt` file, at line 2 (`project(avr-c-template C CXX)`). The default name is `avr-c-template`. Both the target MCU and clock frequency can be passed as arguments to the CMake command or set in the `build.sh` script.
+#### Visual Studio Code paths configuration
+
+This template includes a `.vscode` directory with a `c_cpp_properties.json` file that configures the C/C++ extension for Visual Studio Code. This file specifies the include paths and defines for the AVR microcontroller you are targeting. You may need to adjust the paths based on your AVR-GCC installation.
+
+#### Project name
+
+You may want to change the project name to something more meaningful for your application. The project name is defined in the following files:
+
+- `CMakeLists.txt`: The project name is set using the `project()` command. The project name defined here also serves as the output binary name.
+- `Doxyfile`: The project name is set using the `PROJECT_NAME` tag. This name is used in the generated documentation.
+- `.vscode/c_cpp_properties.json`: The project name is used in the `name` field. This has no functional impact.
+- `.github/workflows/ci.yaml`: The project name is used in the `name` field. This has no functional impact.
 
 ## Testing environment
 

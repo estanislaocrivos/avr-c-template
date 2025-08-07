@@ -3,12 +3,17 @@
         {
             "name": "avr-c-template",
             "compilerPath": "/opt/homebrew/bin/avr-gcc",
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "cStandard": "gnu11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64",
             "includePath": [
+                "${workspaceFolder}/inc",
+                "${workspaceFolder}/src",
                 "/opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/avr/include"
+            ],
+            "defines": [
+                "__AVR_ATmega2560__",
+                "F_CPU=16000000UL"
             ]
         }
     ],
