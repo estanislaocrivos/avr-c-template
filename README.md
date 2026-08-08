@@ -97,32 +97,54 @@ Or you may use the provided `generate-docs.sh` script, which will run Doxygen an
 
 ## Building the binary
 
-For compiling the project, you can use the provided `build.sh` script, which uses CMake to generate the Makefiles and build the project. The script sets the target MCU and clock frequency, which can be customized as needed:
+Use the `build.sh` script, which drives CMake with the AVR toolchain file and prints a size report after linking:
 
 ```bash
-./build.sh [<MCU>] [<F_CPU>]
+./build.sh                                 # atmega2560 @ 16 MHz, Release
+./build.sh -m atmega328p -f 8000000UL      # different target
+./build.sh -t Debug -v                     # Debug build, verbose output
+./build.sh --clean                         # wipe build/ and rebuild
+./build.sh --help                          # full option list
 ```
 
-If you prefer to build the project manually, you can create a `build` directory and run CMake with the appropriate toolchain file and options. Here is an example of how to do this:
+Supported build types are `Debug`, `Release` (default), `MinSizeRel` and `RelWithDebInfo`. Every build produces the following artifacts under `build/`:
+
+| File                      | Purpose                                     |
+| ------------------------- | ------------------------------------------- |
+| `<project>.elf`           | Linked ELF (source-of-truth build product)  |
+| `<project>.hex`           | Intel HEX image ready to flash              |
+| `<project>.lst`           | Full disassembly listing                    |
+| `<project>.map`           | Linker map with per-symbol flash/RAM usage  |
+
+If you prefer to invoke CMake directly:
 
 ```bash
-mkdir build
-cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=../avr-gcc-toolchain.cmake -DMCU=atmega328p -DF_CPU=16000000UL ..
-make
+cmake -S . -B build \
+      -DCMAKE_TOOLCHAIN_FILE=avr-gcc-toolchain.cmake \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DMCU=atmega2560 -DF_CPU=16000000UL
+cmake --build build --parallel
 ```
-
-Replace `atmega328p` and `16000000UL` with your target MCU and clock frequency as needed. The output binaries will be generated in the `build` directory.
 
 ## Flashing the target
 
-To flash the generated binary to your AVR microcontroller, you can use `avrdude`. The command will depend on your specific programmer and target MCU. Here is an example command for flashing an ATmega2560 using an Arduino UNO as an ICSP programmer:
+The `flash.sh` script wraps `avrdude` and supports two flashing paths:
+
+- **`direct`** — the target board exposes its own USB serial and runs a bootloader (e.g. an Arduino Mega 2560 with the stock Optiboot/STK500v2 bootloader). Uses programmer `wiring` @ 115200 baud.
+- **`isp`** — the target ATmega is programmed via ICSP through a secondary Arduino running the "Arduino as ISP" sketch. Uses programmer `stk500v1` @ 19200 baud.
 
 ```bash
-avrdude -C /etc/avrdude.conf -v -V -p atmega2560 -c stk500v1 -P /dev/ttyACM1 -b 19200 -U flash:w:avr-c-template.hex:i
+./flash.sh                                 # direct-flash newest build/*.hex
+./flash.sh -m isp                          # flash via Arduino-as-ISP over ICSP
+./flash.sh -m direct -p /dev/tty.usbmodem14201
+./flash.sh -H build/avr-c-template.hex -- -e   # forward extra args to avrdude
+./flash.sh --dry-run                       # print the avrdude command and exit
+./flash.sh --help                          # full option list
 ```
 
-You can find more information about `avrdude` and its options in the [AVRDUDE documentation](https://avrdudes.github.io/avrdude/).
+The serial port is auto-detected from `/dev/tty.usbmodem*`, `/dev/tty.usbserial-*`, `/dev/ttyACM*` and `/dev/ttyUSB*`; pass `-p/--port` to override. The HEX file defaults to the newest `*.hex` in `build/`; pass `-H/--hex` to override.
+
+See the [AVRDUDE documentation](https://avrdudes.github.io/avrdude/) for the full programmer/option reference.
 
 ## License
 
